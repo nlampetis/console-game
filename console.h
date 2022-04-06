@@ -1,3 +1,5 @@
+#pragma once
+
 #include <windows.h>
 #include <stdio.h>
 #include <iostream>
@@ -17,6 +19,7 @@ private:
 	CONSOLE_CURSOR_INFO mConsoleVursorInfo;
 	CONSOLE_SCREEN_BUFFER_INFO m_csbi;
 	size_t mFinalBufferSize;
+	INPUT_RECORD irInBuf[128];
 	
 
 public:
@@ -26,8 +29,18 @@ public:
 
 	void init();
 	void updateBuffer(const int& i, const WCHAR&, const WORD&);
+	void updateBuffer(const COORD& pos, const WCHAR&, const WORD&);
+
+	void fillBufferWithMap(const CHAR_INFO* map, const int& size);
+	
+	const size_t& getBufferSize() const;
+
 	void dumpBufferToConsole();
 	void hideCursor();
 	bool handleUserInput();
+	void handleKeyInput();
 };
+
+
+VOID KeyEventProc(KEY_EVENT_RECORD ker);
 

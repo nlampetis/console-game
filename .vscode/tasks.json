@@ -13,6 +13,8 @@
 				"${file}",
 				"-g",
 				"${fileDirname}\\console.cpp",
+				"-g",
+				"${fileDirname}\\player.cpp",
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],

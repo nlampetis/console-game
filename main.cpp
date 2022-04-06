@@ -1,3 +1,4 @@
+#include "player.h"
 #include "console.h"
 
 int main() {
@@ -7,7 +8,15 @@ int main() {
 	Console cl{};
 	cl.init();
 
-    for (int i = 0; i < 3600; ++i) {
+    Player player{10, 10};
+
+    PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
+    memset(myMap, ',', cl.getBufferSize() * sizeof(CHAR_INFO));
+
+    cl.fillBufferWithMap(myMap, cl.getBufferSize());
+
+    for (int i = 0; i < cl.getBufferSize(); ++i) {
+        player.draw(cl);
         cl.updateBuffer(i, (WCHAR)i, FOREGROUND_GREEN);
         cl.dumpBufferToConsole();
         if (!cl.handleUserInput()) {
@@ -17,7 +26,13 @@ int main() {
             break;
         }
 
-        Sleep(16);
+        Sleep(10);
+    }
+
+    while(1){
+
+        cl.handleKeyInput();
+        Sleep(10);
     }
 
 	//char c;

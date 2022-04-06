@@ -116,6 +116,21 @@ void Console::updateBuffer(const int& i, const WCHAR& c, const WORD& a) {
 	mPcharInfoBuffer[i].Attributes = a;
 }
 
+void Console::updateBuffer(const COORD& pos, const WCHAR& c, const WORD& a) {
+
+	mPcharInfoBuffer[(pos.Y-1)*mFinalBufferCoords.X + pos.X].Char.AsciiChar = c;
+	mPcharInfoBuffer[(pos.Y-1)*mFinalBufferCoords.X + pos.X].Attributes = a;
+}
+
+
+
+void Console::fillBufferWithMap(const CHAR_INFO* map, const int& size){
+	if(size != mFinalBufferSize) return;
+	for(int i = 0; i < size; ++i){
+		updateBuffer(i, map[i].Char.AsciiChar, map[i].Attributes);
+	}
+}
+
 
 void Console::dumpBufferToConsole() {
 
@@ -159,3 +174,45 @@ bool Console::handleUserInput() {
 
 	return true;
 }
+
+void Console::handleKeyInput() {
+	
+	DWORD cNumRead;
+	GetNumberOfConsoleInputEvents(mInHandle, &cNumRead);
+	if (cNumRead > 0) {
+		if (! ReadConsoleInput(
+					mInHandle,      // input buffer handle
+					irInBuf,     // buffer to read into
+					128,         // size of read buffer
+					&cNumRead) ){
+						printf("ReadConsoleInput failed - (%d)\n", GetLastError());
+		} // number of records read
+			
+
+		// Dispatch the events to the appropriate handler.
+
+		for (int i = 0; i < cNumRead; i++)
+		{
+			switch(irInBuf[i].EventType)
+			{
+				case KEY_EVENT: // keyboard input
+					KeyEventProc(irInBuf[i].Event.KeyEvent);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	
+}
+
+VOID KeyEventProc(KEY_EVENT_RECORD ker)
+{
+    printf("Key event: ");
+
+    if(ker.bKeyDown)
+        printf("key pressed\n");
+    else printf("key released\n");
+}
+
+const size_t& Console::getBufferSize() const { return mFinalBufferSize;}
