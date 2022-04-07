@@ -15,12 +15,6 @@ class Player{
         int y;
         CHAR_INFO chInfo;
 
-        enum class Moves{
-            MOVE_UP = 0,
-            MOVE_DOWN = 1,
-            MOVE_LEFT = 2,
-            MOVE_RIGHT = 3
-        };
 
     public:
         
@@ -40,7 +34,7 @@ class Player{
         
         const CHAR_INFO& getPlayerCharInfo() const;
         
-        void move(Moves);
+        void move(const char&);
         void draw(Console&);
 
 };

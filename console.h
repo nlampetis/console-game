@@ -19,7 +19,7 @@ private:
 	CONSOLE_CURSOR_INFO mConsoleVursorInfo;
 	CONSOLE_SCREEN_BUFFER_INFO m_csbi;
 	size_t mFinalBufferSize;
-	INPUT_RECORD irInBuf[128];
+	INPUT_RECORD mInBuf[128];
 	
 
 public:
@@ -38,9 +38,10 @@ public:
 	void dumpBufferToConsole();
 	void hideCursor();
 	bool handleUserInput();
-	void handleKeyInput();
+	char handleKeyInput();
+	void setTitle(std::string title);
 };
 
 
-VOID KeyEventProc(KEY_EVENT_RECORD ker);
+char KeyEventProc(KEY_EVENT_RECORD ker);
 

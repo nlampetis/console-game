@@ -27,19 +27,19 @@ COORD Player::getPlayerCoords() const{
 
 const CHAR_INFO& Player::getPlayerCharInfo() const {return chInfo;}
 
-void Player::move(Moves m){
+void Player::move(const char& m){
     
     switch (m){
-        case Moves::MOVE_UP:
+        case 'w':
             --y;
             break;
-        case Moves::MOVE_DOWN:
+        case 's':
             ++y;
             break;
-        case Moves::MOVE_LEFT:
+        case 'a':
             --x;
             break;
-        case Moves::MOVE_RIGHT:
+        case 'd':
             ++x;
             break;
         default:

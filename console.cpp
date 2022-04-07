@@ -175,44 +175,62 @@ bool Console::handleUserInput() {
 	return true;
 }
 
-void Console::handleKeyInput() {
+char Console::handleKeyInput() {
 	
 	DWORD cNumRead;
 	GetNumberOfConsoleInputEvents(mInHandle, &cNumRead);
 	if (cNumRead > 0) {
 		if (! ReadConsoleInput(
 					mInHandle,      // input buffer handle
-					irInBuf,     // buffer to read into
+					mInBuf,     // buffer to read into
 					128,         // size of read buffer
 					&cNumRead) ){
-						printf("ReadConsoleInput failed - (%d)\n", GetLastError());
+						return ' ';
 		} // number of records read
-			
-
-		// Dispatch the events to the appropriate handler.
-
-		for (int i = 0; i < cNumRead; i++)
+		
+		switch(mInBuf[0].EventType)
 		{
-			switch(irInBuf[i].EventType)
-			{
-				case KEY_EVENT: // keyboard input
-					KeyEventProc(irInBuf[i].Event.KeyEvent);
-					break;
-				default:
-					break;
-			}
+			case KEY_EVENT: // keyboard input
+				return KeyEventProc(mInBuf[0].Event.KeyEvent);
+				break;
+			default:
+				break;
 		}
+		
 	}
-	
+	return ' ';
 }
 
-VOID KeyEventProc(KEY_EVENT_RECORD ker)
+char KeyEventProc(KEY_EVENT_RECORD rec)
 {
-    printf("Key event: ");
-
-    if(ker.bKeyDown)
-        printf("key pressed\n");
-    else printf("key released\n");
-}
+    if(rec.bKeyDown == TRUE && rec.wRepeatCount <=1){
+        switch (rec.wVirtualKeyCode)
+        {
+            case VK_UP:
+                return 'w';
+                break;
+            case VK_DOWN:
+                return 's';
+                break;
+            case VK_LEFT:
+                return 'a';
+                break;
+            case VK_RIGHT:
+                return 'd';
+                break;
+            default:
+                return rec.uChar.AsciiChar;
+                break;
+        }
+    }
+    return ' ';
+};
 
 const size_t& Console::getBufferSize() const { return mFinalBufferSize;}
+
+void Console::setTitle(std::string title){
+    
+    title = "fps: " + title;
+    const char* title2 = title.c_str();
+    SetConsoleTitleA(title2);
+}
