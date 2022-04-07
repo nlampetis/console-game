@@ -2,17 +2,6 @@
 
 #include <windows.h>
 
-#include <iostream>
-#include <chrono>
-#include <vector>
-#include <list>
-#include <thread>
-#include <atomic>
-#include <string.h>
-#include <condition_variable>
-#include <stdlib.h>
-#include <stdio.h>
-
 enum MY_COLOUR
 {
 	FG_BLACK = 0x0000,
@@ -22,7 +11,7 @@ enum MY_COLOUR
 	FG_DARK_RED = 0x0004,
 	FG_DARK_MAGENTA = 0x0005,
 	FG_DARK_YELLOW = 0x0006,
-	FG_GREY = 0x0007, // Thanks MS :-/
+	FG_GREY = 0x0007, 
 	FG_DARK_GREY = 0x0008,
 	FG_BLUE = 0x0009,
 	FG_GREEN = 0x000A,
