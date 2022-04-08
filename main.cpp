@@ -89,7 +89,7 @@ void playerMovement(Console& cl, Player& plr){
 
 int main() {
 	
-    //dummy comment 1
+    //dummy comment 2
 	Console cl{};
 	cl.init();
     Player player{10, 10};
