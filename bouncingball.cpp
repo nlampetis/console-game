@@ -24,7 +24,7 @@ const CHAR_INFO& Bouncy::getBouncyCharInfo() const {
 }
 
 void Bouncy::draw(Console& cl){
-    COORD temp = {pos.x, pos.y};
+    COORD temp = {static_cast<SHORT>(floor(pos.x)), static_cast<SHORT>(floor(pos.x))};
     cl.updateBuffer(
         temp,
         chInfo.Char.AsciiChar,

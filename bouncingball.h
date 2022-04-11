@@ -5,6 +5,7 @@
 #include <iostream>
 #include <io.h>
 #include <fcntl.h>
+#include <math.h>
 
 #include "console.h"
 
