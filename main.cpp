@@ -84,8 +84,8 @@ void playerMovement(Console& cl, Player& plr){
         Sleep(10);
         
     }
-
 }
+
 
 int main() {
 	
