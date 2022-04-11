@@ -9,7 +9,7 @@
 
 #include "console.h"
 
-struct coord {
+struct myCoord {
         float x;
         float y;
 };
@@ -17,8 +17,8 @@ struct coord {
 
 class Bouncy{
 private:
-    coord pos;
-    coord vel;
+    myCoord pos;
+    myCoord vel;
     CHAR_INFO chInfo;
 public:
     
@@ -26,13 +26,13 @@ public:
     virtual ~Bouncy();
 
 
-    const coord& getVel() const;
-    const coord& getPos() const;
-    void setVel(int& newx, int& newy);
-    void setPos(int& newx, int& newy);
+    const myCoord& getVel() const;
+    const myCoord& getPos() const;
+    void setVel(float& newx, float& newy);
+    void setPos(float& newx, float& newy);
     const CHAR_INFO& getBouncyCharInfo() const;
     
-    void move(const char&);
+    void move(Console&, float delta);
     void draw(Console&);
 
 };

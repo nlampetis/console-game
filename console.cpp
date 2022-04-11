@@ -118,8 +118,8 @@ void Console::updateBuffer(const int& i, const WCHAR& c, const WORD& a) {
 
 void Console::updateBuffer(const COORD& pos, const WCHAR& c, const WORD& a) {
 
-	mPcharInfoBuffer[(pos.Y-1)*mFinalBufferCoords.X + pos.X].Char.AsciiChar = c;
-	mPcharInfoBuffer[(pos.Y-1)*mFinalBufferCoords.X + pos.X].Attributes = a;
+	mPcharInfoBuffer[(pos.Y)*mFinalBufferCoords.X + pos.X].Char.AsciiChar = c;
+	mPcharInfoBuffer[(pos.Y)*mFinalBufferCoords.X + pos.X].Attributes = a;
 }
 
 
@@ -233,4 +233,8 @@ void Console::setTitle(std::string title){
     title = "fps: " + title;
     const char* title2 = title.c_str();
     SetConsoleTitleA(title2);
+}
+
+const COORD& Console::getFinalBufferCoords() const{
+	return mFinalBufferCoords;
 }

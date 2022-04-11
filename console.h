@@ -40,6 +40,7 @@ public:
 	bool handleUserInput();
 	char handleKeyInput();
 	void setTitle(std::string title);
+	const COORD& getFinalBufferCoords() const;
 };
 
 
