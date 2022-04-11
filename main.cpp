@@ -62,10 +62,21 @@ void playerMovement(Console& cl, Player& plr){
     //-----------------------------------------------------------------------------------------//
     //                                      "game" loop                                        //
     //-----------------------------------------------------------------------------------------//
+    auto gameTickClock = std::chrono::high_resolution_clock::now();
     while(true){
         
 
         auto t0 = std::chrono::high_resolution_clock::now();
+        
+        //time diff to resolve the game tick
+        auto gameTickDiff = std::chrono::duration_cast<std::chrono::microseconds>(t0 - gameTickClock).count();
+        //things inside this if statement happen every one second
+        //TODO: what if something needs to happen slowed i.e. period > 1s?
+        if(gameTickDiff >= 1000000){ //roughly one second has passed
+            plr.move('d'); //for now just move the player to the right
+            gameTickClock = std::chrono::high_resolution_clock::now(); // reset the game tick clock for the next cycle
+        }
+
         cl.fillBufferWithMap(myMap, cl.getBufferSize()); //inefficient
         plr.move(cl.handleKeyInput());
         plr.draw(cl);
@@ -94,8 +105,9 @@ int main() {
 	cl.init();
     Player player{10, 10};
 
-    
+    //simpleAsciiScroll(cl);
     playerMovement(cl, player);
 
+    //this is a second dummy comment
 
 }
