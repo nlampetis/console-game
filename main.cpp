@@ -107,6 +107,7 @@ void playerMovement(Console& cl, Player& plr){
 void bouncingBallLoop(Console& cl){
     
     Bouncy ball {};
+    Player player {5, 5};
 
     PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
     std::default_random_engine generator;
@@ -127,30 +128,33 @@ void bouncingBallLoop(Console& cl){
     }
 
     using namespace std::chrono_literals;
-    auto deltaTime = std::chrono::high_resolution_clock::now();
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto t0 = std::chrono::high_resolution_clock::now();
+    float delta = std::chrono::duration_cast<std::chrono::microseconds>(16us).count();
+
     while(true){
-        auto t0 = std::chrono::high_resolution_clock::now();
 
-
-        float gameTickDiff = std::chrono::duration_cast<std::chrono::milliseconds>(t0 - deltaTime).count();
+        t0 = std::chrono::high_resolution_clock::now();
 
         
-        if(gameTickDiff >= 5){ 
-
-            ball.move(cl, gameTickDiff/1000);
-            deltaTime = std::chrono::high_resolution_clock::now(); // reset the game tick clock for the next cycle
+        if(delta != 0){ 
+            player.incrementDelta(delta);
+            player.automove1s();
+            ball.move(cl, delta/1000000);
+            //deltaTime = std::chrono::high_resolution_clock::now(); // reset the game tick clock for the next cycle
         }
 
         
         cl.fillBufferWithMap(myMap, cl.getBufferSize()); //inefficient
         ball.draw(cl);
+        player.draw(cl);
 
         cl.dumpBufferToConsole();
 
-        auto t1 = std::chrono::high_resolution_clock::now();
+        t1 = std::chrono::high_resolution_clock::now();
         
-        auto dif = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
-        if(dif != 0){
+        delta = (float) std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+        if(delta != 0){
             auto fps =  (int64_t) 1000000 / std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
             cl.setTitle(std::to_string(fps));
         }
