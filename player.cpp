@@ -54,3 +54,14 @@ void Player::draw(Console& cl){
         chInfo.Attributes
     );
 }
+
+void Player::incrementDelta(float toAddelta){
+    internalTimeDelta += toAddelta;
+}
+
+void Player::automove1s(){
+    if (internalTimeDelta >= 1000000){
+        move('w');
+        internalTimeDelta = 0;
+    }
+}

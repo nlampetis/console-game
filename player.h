@@ -14,7 +14,7 @@ class Player{
         int x;
         int y;
         CHAR_INFO chInfo;
-
+        float internalTimeDelta;
 
     public:
         
@@ -36,5 +36,9 @@ class Player{
         
         void move(const char&);
         void draw(Console&);
+
+        void incrementDelta(float toAddelta);
+
+        void automove1s();
 
 };
