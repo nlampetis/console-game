@@ -1,6 +1,7 @@
 #include "player.h"
 #include "console.h"
 #include "bouncingball.h"
+#include "renderer.h"
 
 #include <chrono>
 #include <random>
@@ -66,7 +67,7 @@ void playerMovement(Console& cl, Player& plr){
 
     using namespace std::chrono_literals;
 
-
+    Renderer renderer(&cl);
     auto deltaTime = std::chrono::high_resolution_clock::now();
     while(true){
         
@@ -85,7 +86,7 @@ void playerMovement(Console& cl, Player& plr){
 
         cl.fillBufferWithMap(myMap, cl.getBufferSize()); //inefficient
         plr.move(cl.handleKeyInput());
-        plr.draw(cl);
+        renderer.draw(plr);
         cl.dumpBufferToConsole();
 
         auto t1 = std::chrono::high_resolution_clock::now();
@@ -108,6 +109,7 @@ void bouncingBallLoop(Console& cl){
     
     Bouncy ball {};
     Player player {5, 5};
+    Renderer renderer(&cl);
 
     PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
     std::default_random_engine generator;
@@ -131,25 +133,66 @@ void bouncingBallLoop(Console& cl){
     auto t1 = std::chrono::high_resolution_clock::now();
     auto t0 = std::chrono::high_resolution_clock::now();
     float delta = std::chrono::duration_cast<std::chrono::microseconds>(16us).count();
+    float totalDelta = 0.0f;
 
     while(true){
 
         t0 = std::chrono::high_resolution_clock::now();
 
-        
-        if(delta != 0){ 
-            player.incrementDelta(delta);
+        totalDelta += delta;
+        if(totalDelta > 64000){ 
+            player.incrementDelta(totalDelta);
             player.automove1s();
-            ball.move(cl, delta/1000000);
+            ball.move(cl, totalDelta/1000000);
+            totalDelta = 0.0f;
             //deltaTime = std::chrono::high_resolution_clock::now(); // reset the game tick clock for the next cycle
         }
 
         
         cl.fillBufferWithMap(myMap, cl.getBufferSize()); //inefficient
         ball.draw(cl);
-        player.draw(cl);
+        
+        //player.draw(cl); //without the renderer
+        renderer.draw(player);
 
-        cl.dumpBufferToConsole();
+        renderer.updateDisplay();
+        //cl.dumpBufferToConsole(); //without the renderer
+
+        t1 = std::chrono::high_resolution_clock::now();
+        
+        delta = (float) std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+        if(delta > 1000000){
+            delta = 16; //for debugging
+        }
+        if(delta != 0){
+            auto fps =  (int64_t) 1000000 / std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count();
+            cl.setTitle(std::to_string(fps));
+        }
+    }
+}
+
+void gameLoopTemplate(Console& cl){
+    
+    Renderer renderer(&cl);
+    constexpr float GAME_TICK = 16666.0f; // 60 updates per second game tick
+
+    using namespace std::chrono_literals;
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto t0 = std::chrono::high_resolution_clock::now();
+    float delta = std::chrono::duration_cast<std::chrono::microseconds>(16us).count();
+    float timeDiff = 0.0f;
+
+    while(true){
+
+        t0 = std::chrono::high_resolution_clock::now();
+
+        
+        if(timeDiff >= GAME_TICK){  //update physics once per game tick
+            timeDiff = 0;
+        }
+
+        //renderer.draw(Drawable); //example draw every cycle
+        renderer.updateDisplay(); //refresh every cycle
 
         t1 = std::chrono::high_resolution_clock::now();
         
@@ -159,6 +202,7 @@ void bouncingBallLoop(Console& cl){
             cl.setTitle(std::to_string(fps));
         }
     }
+
 }
 
 int main() {
