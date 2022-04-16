@@ -17,6 +17,8 @@
 				"${fileDirname}\\player.cpp",
 				"-g",
 				"${fileDirname}\\bouncingball.cpp",
+				"-g",
+				"${fileDirname}\\renderer.cpp",
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],
