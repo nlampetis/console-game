@@ -5,6 +5,9 @@
 //#include <stdio.h>      // for printf
 //#include <errno.h>      // for return values
 
+short Console::WINDOW_HEIGHT = 0;
+short Console::WINDOW_WIDTH = 0;
+
 Console::Console() : mWindowSizeRect{ 0, 0, 120, 30} {
 	
 	mConsoleFont.cbSize = sizeof(CONSOLE_FONT_INFOEX);
@@ -17,6 +20,9 @@ Console::Console() : mWindowSizeRect{ 0, 0, 120, 30} {
 	mPcharInfoBuffer = new CHAR_INFO[mFinalBufferSize];
 	memset(mPcharInfoBuffer, 0, sizeof(CHAR_INFO) * mFinalBufferSize);
 	mPinBuffer = new INPUT_RECORD[256];
+
+	WINDOW_HEIGHT = mFinalBufferCoords.Y;
+	WINDOW_WIDTH = mFinalBufferCoords.X;
 }
 
 Console::Console(short x, short y) : mWindowSizeRect{ 0, 0, x, y } {
@@ -31,6 +37,9 @@ Console::Console(short x, short y) : mWindowSizeRect{ 0, 0, x, y } {
 	mPcharInfoBuffer = new CHAR_INFO[mFinalBufferSize];
 	memset(mPcharInfoBuffer, 0, sizeof(CHAR_INFO) * mFinalBufferSize);
 	mPinBuffer = new INPUT_RECORD[256];
+
+	WINDOW_HEIGHT = mFinalBufferCoords.Y;
+	WINDOW_WIDTH = mFinalBufferCoords.X;
 }
 
 Console::~Console() {

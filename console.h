@@ -23,6 +23,10 @@ private:
 	
 
 public:
+	
+	static short WINDOW_WIDTH; 
+	static short WINDOW_HEIGHT; 
+	
 	Console();
 	Console(short, short);
 	virtual ~Console();
