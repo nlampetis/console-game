@@ -24,7 +24,6 @@ void simpleAsciiScroll(Console& cl){
 void playerMovement(Console& cl, Player& plr){
     
     PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
-    
     /* 
     //-----------------------------------------------------------------------------------------//
     //                                      raw fill                                           //
@@ -110,7 +109,6 @@ void bouncingBallLoop(Console& cl){
     Bouncy ball {};
     Player player {5, 5};
     Renderer renderer(&cl);
-
     PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
     std::default_random_engine generator;
     std::uniform_int_distribution<int> distribution(1,5);
@@ -186,7 +184,6 @@ void gameLoopTemplate(Console& cl){
 
         t0 = std::chrono::high_resolution_clock::now();
 
-        
         if(timeDiff >= GAME_TICK){  //update physics once per game tick
             timeDiff = 0;
         }
@@ -206,16 +203,12 @@ void gameLoopTemplate(Console& cl){
 }
 
 int main() {
-	
     //dummy comment 3
-	Console cl{};
-	cl.init();
+    Console cl{};
+    cl.init();
     Player player{10, 10};
-
     //simpleAsciiScroll(cl);
     //playerMovement(cl, player);
     bouncingBallLoop(cl);
-
     //this is a second dummy comment
-
 }
