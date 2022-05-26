@@ -20,7 +20,6 @@ void simpleAsciiScroll(Console& cl){
             Sleep(10);
     }
 }
-
 void playerMovement(Console& cl, Player& plr){
     
     PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
@@ -206,12 +205,11 @@ void gameLoopTemplate(Console& cl){
 }
 
 int main() {
-	
-    //dummy comment 3
-	Console cl{};
-	cl.init();
-    Player player{10, 10};
 
+    //dummy comment 3
+    Console cl{};
+    cl.init();
+    Player player{10, 10};
     //simpleAsciiScroll(cl);
     //playerMovement(cl, player);
     bouncingBallLoop(cl);
