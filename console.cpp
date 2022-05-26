@@ -247,3 +247,4 @@ void Console::setTitle(std::string title){
 const COORD& Console::getFinalBufferCoords() const{
 	return mFinalBufferCoords;
 }
+
