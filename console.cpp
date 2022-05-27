@@ -1,4 +1,7 @@
 #include "console.h"
+#include <string>
+#include <wincon.h>
+#include <winnt.h>
 //#include "myincludes.h"
 //#include <string.h>     // for strcpy_s, strcat_s
 //#include <stdlib.h>     // for _countof
@@ -60,6 +63,10 @@ void Console::init() {
 	if (mOutHandle == INVALID_HANDLE_VALUE)
 		MessageBox(NULL, TEXT("CreateConsoleScreenBuffer"), TEXT("Console Error"), MB_OK);
 
+        //this must be here because at the time of setting the console screen buffer size
+        //the buffer CANNOT BE SMALLER than the window containing it
+	SMALL_RECT initialRect = { 0, 0, 0, 0 };
+	SetConsoleWindowInfo(mOutHandle, TRUE, &initialRect);
 
 	if (!SetConsoleScreenBufferSize(mOutHandle, mFinalBufferCoords))
 		MessageBox(NULL, TEXT("SetConsoleScreenBufferSize"), TEXT("Console Error"), MB_OK);
@@ -68,8 +75,6 @@ void Console::init() {
 	if (!SetConsoleActiveScreenBuffer(mOutHandle))
 		MessageBox(NULL, TEXT("SetConsoleActiveScreenBuffer"), TEXT("Console Error"), MB_OK);
 	
-	SMALL_RECT initialRect = { 0, 0, 0, 0 };
-	SetConsoleWindowInfo(mOutHandle, TRUE, &initialRect);
 
 	
 	//if above doesn't work
@@ -78,6 +83,11 @@ void Console::init() {
 	//SetCurrentConsoleFontEx(mOutHandle, TRUE, &mConsoleFont);
 
 	GetCurrentConsoleFontEx(mOutHandle, FALSE, &mConsoleFont);
+
+        //TODO: implement this in a function to change the font
+        wcscpy_s(mConsoleFont.FaceName, L"Consolas");
+        mConsoleFont.dwFontSize = {60,16};
+
 	SetCurrentConsoleFontEx(mOutHandle, FALSE, &mConsoleFont);
 
 
@@ -85,6 +95,19 @@ void Console::init() {
 
 	if (!GetConsoleScreenBufferInfo(mOutHandle, &m_csbi))
 		MessageBox(NULL, TEXT("GetConsoleScreenBufferInfo"), TEXT("Console Error"), MB_OK);
+
+        // log the window info
+        std::string to_log_max = "max X is: " + std::to_string(maxTemp.X);
+        to_log_max.append("\nmax Y is: " + std::to_string(maxTemp.Y));
+
+        to_log_max.append("\n\ndwMax X is: " + std::to_string(m_csbi.dwMaximumWindowSize.X));
+        to_log_max.append("\ndwMax Y is: " + std::to_string(m_csbi.dwMaximumWindowSize.Y));
+
+        to_log_max.append("\n\ncurr X is: " + std::to_string(m_csbi.dwSize.X));
+        to_log_max.append("\ncurr Y is: " + std::to_string(m_csbi.dwSize.Y));
+
+        logMessageBox(to_log_max);
+
 
 
 	if (maxTemp.X >= m_csbi.dwMaximumWindowSize.X) {
@@ -106,6 +129,13 @@ void Console::init() {
 	}
 
 	mFinalBufferCoords = { ++maxTemp.X, ++maxTemp.Y };
+
+        // TODO: fix
+        // the error here is the fact that having a very big font
+        // of a very low res display will cause the buffer to shrink
+        // as a result the output buffer size will not be fixed
+        //
+        // this may sometimes be desired though but not at this point 
 	SetConsoleScreenBufferSize(mOutHandle, mFinalBufferCoords);
 
 
@@ -248,3 +278,24 @@ const COORD& Console::getFinalBufferCoords() const{
 	return mFinalBufferCoords;
 }
 
+void Console::fontResize(const bool& bigger){
+
+	//SMALL_RECT initialRect = { 0, 0, 0, 0 };
+	//SetConsoleWindowInfo(mOutHandle, TRUE, &initialRect);
+
+        if(bigger){
+          mConsoleFont.dwFontSize.X += 4;
+          mConsoleFont.dwFontSize.Y += 1;
+          SetCurrentConsoleFontEx(mOutHandle, FALSE, &mConsoleFont);
+
+        }
+        else{
+          mConsoleFont.dwFontSize.X -= 4;
+          mConsoleFont.dwFontSize.Y -= 1;
+          SetCurrentConsoleFontEx(mOutHandle, FALSE, &mConsoleFont); 
+        } 
+}
+
+void logMessageBox(const std::string& msg){
+        MessageBox(NULL, TEXT(msg.c_str()) , TEXT("Console Logger"),  MB_OK); 
+}

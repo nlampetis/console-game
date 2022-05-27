@@ -145,6 +145,15 @@ void bouncingBallLoop(Console& cl){
             //deltaTime = std::chrono::high_resolution_clock::now(); // reset the game tick clock for the next cycle
         }
 
+
+        const char inpt = cl.handleKeyInput();
+        if(inpt == '+'){
+          //logMessageBox("i am here");
+          cl.fontResize(true);
+        }
+        else if (inpt == '-'){
+          cl.fontResize(false);
+        }
         
         cl.fillBufferWithMap(myMap, cl.getBufferSize()); //inefficient
         ball.draw(cl);

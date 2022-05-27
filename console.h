@@ -45,8 +45,11 @@ public:
 	char handleKeyInput();
 	void setTitle(std::string title);
 	const COORD& getFinalBufferCoords() const;
+        void fontResize(const bool& bigger);
 };
 
 
 char KeyEventProc(KEY_EVENT_RECORD ker);
 
+//TODO: move elsewhere
+void logMessageBox(const std::string&);
