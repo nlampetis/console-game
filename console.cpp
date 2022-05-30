@@ -220,11 +220,11 @@ char Console::handleKeyInput() {
 	GetNumberOfConsoleInputEvents(mInHandle, &cNumRead);
 	if (cNumRead > 0) {
 		if (! ReadConsoleInput(
-					mInHandle,      // input buffer handle
-					mInBuf,     // buffer to read into
-					128,         // size of read buffer
-					&cNumRead) ){
-						return ' ';
+                  mInHandle,      // input buffer handle
+                  mInBuf,     // buffer to read into
+                  128,         // size of read buffer
+                  &cNumRead) ){
+                          return ' ';
 		} // number of records read
 		
 		switch(mInBuf[0].EventType)

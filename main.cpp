@@ -138,8 +138,8 @@ void bouncingBallLoop(Console& cl){
 
         totalDelta += delta;
         if(totalDelta > 64000){ 
-            player.incrementDelta(totalDelta);
-            player.automove1s();
+            //player.incrementDelta(totalDelta);
+            player.automove1s(totalDelta);
             ball.move(cl, totalDelta/1000000);
             totalDelta = 0.0f;
             //deltaTime = std::chrono::high_resolution_clock::now(); // reset the game tick clock for the next cycle
@@ -192,7 +192,7 @@ void gameLoopTemplate(Console& cl){
 
         t0 = std::chrono::high_resolution_clock::now();
 
-        if(timeDiff >= GAME_TICK){  //update physics once per game tick
+        if(timeDiff >= GAME_TICK){  //update physics/logic once per game tick
             timeDiff = 0;
         }
 

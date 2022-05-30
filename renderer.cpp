@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "sprite.h"
 
 Renderer::Renderer(Console* cl){
     console = cl;
@@ -10,7 +11,7 @@ Renderer::~Renderer(){
 
 void Renderer::draw(const Drawable& drawable){
 
-    CHAR_INFO * sprite =  drawable.getSprite();
+    Sprite * sprite =  drawable.getSprite();
     
     short startX = drawable.getPos().X;
     short startY = drawable.getPos().Y;
@@ -24,8 +25,8 @@ void Renderer::draw(const Drawable& drawable){
             COORD currentXY = {i,j};
             console->updateBuffer(
                 currentXY, 
-                sprite[j-startY * width + i-startX].Char.AsciiChar, 
-                sprite[j-startY * width + i-startX].Attributes
+                sprite->geSpriteTable()[(j - startY)*width + i - startX].Char.AsciiChar, 
+                sprite->geSpriteTable()[(j - startY)*width + i - startX].Attributes
             );
         }
     }

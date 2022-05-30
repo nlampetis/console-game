@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include "sprite.h"
 
 class Drawable
 {
@@ -11,7 +12,7 @@ public:
     //virtual WORD GetAttr() const = 0;
 
     //can be encapsulated in a new sprite class
-    virtual CHAR_INFO * getSprite() const = 0;
+    virtual Sprite * getSprite() const = 0;
     virtual short getWidth() const = 0;
     virtual short getHeight() const = 0;
 

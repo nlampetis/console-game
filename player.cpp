@@ -1,17 +1,23 @@
 #include "player.h"
+#include "sprite.h"
 
 Player::Player() : Player(10, 10) {}
 
 Player::Player(int cx, int cy) : x(cx), y(cy) {
     
-    chInfo = new CHAR_INFO[1];
-    chInfo[0].Char.AsciiChar = 0x0001;
-    chInfo[0].Attributes = FOREGROUND_GREEN | BACKGROUND_BLUE;
+    CHAR_INFO chInfo;
+    chInfo.Char.AsciiChar = 0x0001;
+    chInfo.Attributes = FOREGROUND_GREEN | BACKGROUND_BLUE;
+    sprite = new Sprite(1, 5, chInfo);
+}
+
+Player::Player(int cx, int cy, Sprite * asprite) : x(cx), y(cy) {
+    sprite = asprite;
 }
 
 Player::~Player(){
 
-    delete[] chInfo;
+    delete sprite;
 }
 
 const int& Player::getX() const {return x;}
@@ -28,15 +34,15 @@ COORD Player::getPos() const{
 }
 
 short Player::getWidth() const {
-    return 1;
+    return sprite->getx();
 }
 
 short Player::getHeight() const {
-    return 1;
+    return sprite->gety();
 }
 
-CHAR_INFO * Player::getSprite() const {
-    return chInfo;
+Sprite * Player::getSprite() const {
+    return sprite;
 }
 
 
@@ -56,17 +62,18 @@ void Player::move(const char& m){
     
     switch (m){
         case 'w':
-            if(y-1 >= 0) 
+            if(y - 1 >= 0) 
                 --y;
             break;
         case 's':
-            if(y+1 < Console::WINDOW_HEIGHT)
+            if(y + getHeight() < Console::WINDOW_HEIGHT)
                 ++y;
             break;
         case 'a':
             --x;
             break;
         case 'd':
+            if(x + getWidth() < Console::WINDOW_WIDTH)
             ++x;
             break;
         default:
@@ -86,7 +93,8 @@ void Player::incrementDelta(float toAddelta){
     internalTimeDelta += toAddelta;
 }
 
-void Player::automove1s(){
+void Player::automove1s(float delta){
+    incrementDelta(delta);
     if (internalTimeDelta >= 250000){
         move('s');
         internalTimeDelta = 0;
