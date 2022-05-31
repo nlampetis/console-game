@@ -168,6 +168,8 @@ void bouncingBallLoop(Console &cl) {
 
     // player.draw(cl); //without the renderer
     renderer.draw(player);
+    renderer.writeStringToConsole({0, 20}, "hello"); 
+    renderer.writeStringCentered(10, "this is a big string");
 
     renderer.updateDisplay();
     // cl.dumpBufferToConsole(); //without the renderer

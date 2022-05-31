@@ -13,4 +13,6 @@ class Renderer {
         virtual ~Renderer();
         void draw(const Drawable&);
         void updateDisplay();
+        void writeStringToConsole(const COORD&,  const std::string&);
+        void writeStringCentered(const short& ypos, const std::string& str);
 };

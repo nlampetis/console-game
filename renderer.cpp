@@ -35,7 +35,23 @@ void Renderer::draw(const Drawable& drawable){
     
 }
 
+
+void Renderer::writeStringToConsole(const COORD& pos, const std::string& str){
+  SHORT currx = pos.X;
+  for(char c : str){
+    console->updateBuffer({currx++, pos.Y}, c, 0x12); 
+  }
+}
+
+void Renderer::writeStringCentered(const short& ypos, const std::string& str){
+  short center = Console::WINDOW_WIDTH/2 - str.size() /2;  
+  COORD pos = {center, ypos};
+  writeStringToConsole(pos,str);
+}
+
+
 void Renderer::updateDisplay(){
     console->dumpBufferToConsole();
 }
+
 

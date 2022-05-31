@@ -183,7 +183,6 @@ void Console::dumpBufferToConsole() {
 	);
 
 }
-
 void Console::hideCursor() {
 
 	GetConsoleCursorInfo(mOutHandle, &mConsoleVursorInfo);
