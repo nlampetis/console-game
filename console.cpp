@@ -214,30 +214,40 @@ bool Console::handleUserInput() {
 	return true;
 }
 
+//TODO this better get a buffer pointer as a parameter
+//and save the input there
 char Console::handleKeyInput() {
-	
-	DWORD cNumRead;
-	GetNumberOfConsoleInputEvents(mInHandle, &cNumRead);
-	if (cNumRead > 0) {
-		if (! ReadConsoleInput(
-                  mInHandle,      // input buffer handle
-                  mInBuf,     // buffer to read into
-                  128,         // size of read buffer
-                  &cNumRead) ){
-                          return ' ';
-		} // number of records read
-		
-		switch(mInBuf[0].EventType)
-		{
-			case KEY_EVENT: // keyboard input
-				return KeyEventProc(mInBuf[0].Event.KeyEvent);
-				break;
-			default:
-				break;
-		}
-		
-	}
-	return ' ';
+    
+    // Have we read more than 0 events?
+    //
+    // If this check did not occur then the
+    // ReadConsoleInput fucntion would be called
+    // each frame update and WAIT until an input 
+    // has been detected
+    //
+    // In this case we call the function only when
+    // an event is present and it executes without
+    // any waiting time
+    DWORD cNumRead;
+    GetNumberOfConsoleInputEvents(mInHandle, &cNumRead);
+    if (cNumRead > 0) {
+        
+        //if yes then get the console input
+        if (! ReadConsoleInput(mInHandle, mInBuf, 128, &cNumRead) ){
+            //assuming there is no need for " " input    
+            return ' ';
+        }
+        switch(mInBuf[0].EventType){
+            case KEY_EVENT: // keyboard input
+                return KeyEventProc(mInBuf[0].Event.KeyEvent);
+                break;
+            default:
+                break;
+        }
+        
+    }
+    //assuming there is no need for " " input    
+    return ' ';
 }
 
 char KeyEventProc(KEY_EVENT_RECORD rec)
@@ -256,6 +266,9 @@ char KeyEventProc(KEY_EVENT_RECORD rec)
                 break;
             case VK_RIGHT:
                 return 'd';
+                break;
+            case 0x51:
+                return 'q';
                 break;
             default:
                 return rec.uChar.AsciiChar;

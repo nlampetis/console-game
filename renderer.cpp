@@ -23,6 +23,8 @@ void Renderer::draw(const Drawable& drawable){
     for(short i = startX ; i < endX ; ++i){
         for(short j = startY ; j < endY ; ++j ){
             COORD currentXY = {i,j};
+            if(sprite->geSpriteTable()[(j - startY)*width + i - startX].Char.AsciiChar == 0x0000)
+              continue;
             console->updateBuffer(
                 currentXY, 
                 sprite->geSpriteTable()[(j - startY)*width + i - startX].Char.AsciiChar, 

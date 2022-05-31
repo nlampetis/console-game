@@ -17,9 +17,11 @@ class Sprite{
       //TODO: implement load from file
 
 
-      const int &getx() const;
-      const int &gety() const;
+      const int &width() const;
+      const int &height() const;
 
       const CHAR_INFO * geSpriteTable() const;
+
+      void changePixel(int x, int y, CHAR_INFO newchinfo);
 
 };

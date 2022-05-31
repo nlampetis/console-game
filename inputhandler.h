@@ -9,5 +9,6 @@ class InputHandler{
       Player * player;
     public:
       InputHandler(Console * console, Player * player);
+      void handleKeyboardInput(char * oldstate, char * newstate, int bfsize);
 
 };

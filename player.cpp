@@ -8,8 +8,23 @@ Player::Player(int cx, int cy) : x(cx), y(cy) {
     CHAR_INFO chInfo;
     chInfo.Char.AsciiChar = 0x0001;
     chInfo.Attributes = FOREGROUND_GREEN | BACKGROUND_BLUE;
-    sprite = new Sprite(1, 5, chInfo);
+    sprite = new Sprite(5, 5, chInfo);
+    CHAR_INFO replacement {0x0000};
+
+    for (int xx = 1; xx < 4; ++xx){
+      for (int yy = 1; yy < 4; ++yy){
+        sprite->changePixel(xx, yy, replacement);
+      }
+    }
+    /*sprite->changePixel(1, 2, replacement);
+    sprite->changePixel(1, 3, replacement);
+    sprite->changePixel(1, 4, replacement);
+    sprite->changePixel(2, 1, replacement);
+    sprite->changePixel(2, 2, replacement);
+    sprite->changePixel(2, 3, replacement);
+    sprite->changePixel(2, 4, replacement);*/
 }
+
 
 Player::Player(int cx, int cy, Sprite * asprite) : x(cx), y(cy) {
     sprite = asprite;
@@ -34,11 +49,11 @@ COORD Player::getPos() const{
 }
 
 short Player::getWidth() const {
-    return sprite->getx();
+    return sprite->width();
 }
 
 short Player::getHeight() const {
-    return sprite->gety();
+    return sprite->height();
 }
 
 Sprite * Player::getSprite() const {
@@ -70,6 +85,7 @@ void Player::move(const char& m){
                 ++y;
             break;
         case 'a':
+            if(x - 1 >= 0)
             --x;
             break;
         case 'd':

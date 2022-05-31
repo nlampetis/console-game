@@ -23,14 +23,18 @@ Sprite::~Sprite(){
   delete[] spriteTable;
 }
 
-const int& Sprite::getx() const {
-    return x;
+const int& Sprite::height() const {
+    return y;
 }
 
-const int& Sprite::gety() const {
-    return y;
+const int& Sprite::width() const {
+    return x;
 }
 
 const CHAR_INFO* Sprite::geSpriteTable() const {
   return spriteTable;
+}
+
+void Sprite::changePixel(int xx, int yy, CHAR_INFO ch){
+  spriteTable[(yy)*x + xx] = ch;
 }
