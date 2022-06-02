@@ -100,6 +100,16 @@ void Renderer::drawLine(short x1, short y1, short x2, short y2, CHAR_INFO chinfo
   }
 }
 
+void Renderer::drawTriangle(short x1, short y1, 
+                            short x2, short y2,
+                            short x3, short y3, 
+                            CHAR_INFO chinfo){
+
+  drawLine(x1, y1, x2, y2, chinfo);
+  drawLine(x2, y2, x3, y3, chinfo);
+  drawLine(x3, y3, x1, y1, chinfo);
+}
+
 void Renderer::writeStringToConsole(const COORD &pos, const std::string &str) {
   SHORT currx = pos.X;
   for (char c : str) {

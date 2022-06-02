@@ -206,6 +206,8 @@ void bouncingBallLoop(Console &cl) {
     renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 110, 0, temp);
     renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, Console::WINDOW_WIDTH - 1, 0, temp);
 
+    renderer.drawTriangle(10, 10, 5, 5, 20, 5, {'x', FOREGROUND_BLUE});
+
     //renderer.writeStringToConsole({0, 20}, "hello"); 
     renderer.writeStringCentered(5, "This is really cool!");
 
