@@ -165,9 +165,8 @@ void bouncingBallLoop(Console &cl) {
     }
 
     cl.fillBufferWithMap(myMap, cl.getBufferSize()); // inefficient
-    //ball.draw(cl);
 
-    // player.draw(cl); //without the renderer
+     //player.draw(cl); //without the renderer
     //renderer.draw(player);
 
 
@@ -207,10 +206,17 @@ void bouncingBallLoop(Console &cl) {
     renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, Console::WINDOW_WIDTH - 1, 0, temp);
 
     renderer.drawTriangle(10, 10, 5, 5, 20, 5, {'x', FOREGROUND_BLUE});
+    renderer.drawTriangle(4, 20, 40, 10, 74, 20, {'x', FOREGROUND_BLUE});
+
+
+    renderer.drawCircle(60, 15, 8, {'X', 0x25});
+    renderer.drawCircle(60, 15, 5, {'X', 0x25});
+    renderer.drawCircle(60, 15, 12, {'X', 0x25});
 
     //renderer.writeStringToConsole({0, 20}, "hello"); 
     renderer.writeStringCentered(5, "This is really cool!");
 
+    //ball.draw(cl);
     renderer.updateDisplay();
     // cl.dumpBufferToConsole(); //without the renderer
 

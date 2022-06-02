@@ -19,4 +19,6 @@ public:
 
   void drawLine(short x1, short y1, short x2, short y2, CHAR_INFO chinfo);
   void drawTriangle(short x1, short y1, short x2, short y2, short x3, short y3, CHAR_INFO chinfo);
+  void drawCircle(short x1, short x2, short radius, CHAR_INFO chinfo);
 };
+

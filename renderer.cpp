@@ -110,6 +110,35 @@ void Renderer::drawTriangle(short x1, short y1,
   drawLine(x3, y3, x1, y1, chinfo);
 }
 
+void Renderer::drawCircle(short x1, short y1, short r, CHAR_INFO chinfo){
+
+  for(short i = x1; i <= r + x1 ; ++i){
+    short curr_y = std::round(std::sqrt(std::pow(r, 2) - std::pow(i - x1, 2)) + y1);
+    console->updateBuffer({i, curr_y}, chinfo.Char.AsciiChar, chinfo.Attributes);
+    short mirror_y = 2*y1-curr_y;
+    short mirror_x = 2*x1 -i;
+
+    console->updateBuffer({mirror_x, curr_y}, chinfo.Char.AsciiChar, chinfo.Attributes);
+    console->updateBuffer({mirror_x, mirror_y}, chinfo.Char.AsciiChar, chinfo.Attributes);
+    console->updateBuffer({i, mirror_y}, chinfo.Char.AsciiChar, chinfo.Attributes);
+  }
+
+  //TODO this is bad efficiency
+  //because it paints some pixels multiple times
+  //rewrite correct
+  for(short i = y1; i <= r + y1; ++i){
+    short curr_x = std::round(std::sqrt(std::pow(r, 2) - std::pow(i - y1, 2)) + x1);
+    console->updateBuffer({curr_x, i}, chinfo.Char.AsciiChar, chinfo.Attributes);
+    short mirror_y = 2*y1- i;
+    short mirror_x = 2*x1 -curr_x;
+
+    console->updateBuffer({mirror_x, i}, chinfo.Char.AsciiChar, chinfo.Attributes);
+    console->updateBuffer({mirror_x, mirror_y}, chinfo.Char.AsciiChar, chinfo.Attributes);
+    console->updateBuffer({curr_x, mirror_y}, chinfo.Char.AsciiChar, chinfo.Attributes);
+
+  }
+}
+
 void Renderer::writeStringToConsole(const COORD &pos, const std::string &str) {
   SHORT currx = pos.X;
   for (char c : str) {
