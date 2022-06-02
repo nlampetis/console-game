@@ -5,6 +5,7 @@
 
 #include <chrono>
 #include <random>
+#include <wincon.h>
 
 void simpleAsciiScroll(Console &cl) {
   for (int i = 0; i < cl.getBufferSize(); ++i) {
@@ -164,12 +165,49 @@ void bouncingBallLoop(Console &cl) {
     }
 
     cl.fillBufferWithMap(myMap, cl.getBufferSize()); // inefficient
-    ball.draw(cl);
+    //ball.draw(cl);
 
     // player.draw(cl); //without the renderer
-    renderer.draw(player);
-    renderer.writeStringToConsole({0, 20}, "hello"); 
-    renderer.writeStringCentered(10, "this is a big string");
+    //renderer.draw(player);
+
+
+    CHAR_INFO temp;
+    temp.Attributes = FOREGROUND_RED;
+    temp.Char.AsciiChar = 'x';
+    //renderer.drawLine(5, 5, 5, 10, temp); //vertical
+    //renderer.drawLine(7, 7, 15, 7, temp); //horizontal
+
+    //renderer.drawLine(1, 1, 20 , 3, temp);
+    //renderer.drawLine(1, 1, 3, 20, temp);
+/*
+ *
+ *    renderer.drawLine(0, 15, 0, 0, temp);
+ *    renderer.drawLine(0, 15, 20, 0, temp);
+ *    renderer.drawLine(0, 15, 50, 0, temp);
+ *    renderer.drawLine(0, 15, 80, 0, temp);
+ *    renderer.drawLine(0, 15, 110, 0, temp);
+ *    renderer.drawLine(0, 15, 200, 15, temp); 
+ *    renderer.drawLine(0, 15, 110, Console::WINDOW_HEIGHT - 1, temp);
+ *    renderer.drawLine(0, 15, 80, Console::WINDOW_HEIGHT - 1, temp);
+ *    renderer.drawLine(0, 15, 20, Console::WINDOW_HEIGHT - 1, temp);
+ *    renderer.drawLine(0, 15, 50, Console::WINDOW_HEIGHT - 1, temp);
+ *    renderer.drawLine(0, 15, 0, Console::WINDOW_HEIGHT - 1, temp);
+ *
+ */
+
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, Console::WINDOW_WIDTH -1 , Console::WINDOW_HEIGHT -1, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 110, Console::WINDOW_HEIGHT-1, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 80, Console::WINDOW_HEIGHT-1, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 50, Console::WINDOW_HEIGHT-1, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 0, Console::WINDOW_HEIGHT-1, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 0, 0, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 50, 0, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 80, 0, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, 110, 0, temp);
+    renderer.drawLine(Console::WINDOW_WIDTH - 1, 15, Console::WINDOW_WIDTH - 1, 0, temp);
+
+    //renderer.writeStringToConsole({0, 20}, "hello"); 
+    renderer.writeStringCentered(5, "This is really cool!");
 
     renderer.updateDisplay();
     // cl.dumpBufferToConsole(); //without the renderer

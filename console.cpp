@@ -157,8 +157,10 @@ void Console::updateBuffer(const int& i, const WCHAR& c, const WORD& a) {
 
 void Console::updateBuffer(const COORD& pos, const WCHAR& c, const WORD& a) {
 
-	mPcharInfoBuffer[(pos.Y)*mFinalBufferCoords.X + pos.X].Char.AsciiChar = c;
-	mPcharInfoBuffer[(pos.Y)*mFinalBufferCoords.X + pos.X].Attributes = a;
+        if(pos.X < Console::WINDOW_WIDTH && pos.Y < Console::WINDOW_HEIGHT){
+          mPcharInfoBuffer[(pos.Y)*mFinalBufferCoords.X + pos.X].Char.AsciiChar = c;
+          mPcharInfoBuffer[(pos.Y)*mFinalBufferCoords.X + pos.X].Attributes = a;
+        }
 }
 
 
