@@ -60,6 +60,13 @@ Sprite * Player::getSprite() const {
     return sprite;
 }
 
+const short Player::getWinX() const {
+  return x + Game::game_area_x_offset;
+}
+
+const short Player::getWinY() const {
+  return y + Game::game_area_y_offset;
+}
 
 /* WCHAR Player::getChar() const {
     return chInfo.Char.AsciiChar;

@@ -12,10 +12,10 @@ void Renderer::draw(const Drawable &drawable) {
 
   Sprite *sprite = drawable.getSprite();
 
-  short startX = drawable.getPos().X;
-  short startY = drawable.getPos().Y;
-  short width = drawable.getWidth();
-  short height = drawable.getHeight();
+  short startX = drawable.getWinX();
+  short startY = drawable.getWinY();
+  short width = sprite->width();
+  short height = sprite->height();
   short endX = width + startX;
   short endY = height + startY;
 
@@ -30,6 +30,29 @@ void Renderer::draw(const Drawable &drawable) {
           sprite->geSpriteTable()[(j - startY) * width + i - startX]
               .Char.AsciiChar,
           sprite->geSpriteTable()[(j - startY) * width + i - startX]
+              .Attributes);
+    }
+  }
+}
+
+void Renderer::drawSprite(const Sprite * sprite, short x, short y){
+
+  short width = sprite->width();
+  short height = sprite->height();
+  short endX = width + x;
+  short endY = height + y;
+
+  for (short i = x; i < endX; ++i) {
+    for (short j = y; j < endY; ++j) {
+      COORD currentXY = {i, j};
+      if (sprite->geSpriteTable()[(j - y) * width + i - x]
+              .Char.AsciiChar == 0x0000)
+        continue;
+      console->updateBuffer(
+          currentXY,
+          sprite->geSpriteTable()[(j - y) * width + i - x]
+              .Char.AsciiChar,
+          sprite->geSpriteTable()[(j - y) * width + i - x]
               .Attributes);
     }
   }
