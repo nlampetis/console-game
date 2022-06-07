@@ -14,10 +14,18 @@ public:
   virtual ~Renderer();
 
   void draw(const Drawable &);
+  void drawTile(CHAR_INFO chinfo, short x, short y);
   void updateDisplay();
 
   void writeStringToConsole(const COORD &, const std::string &);
   void writeStringCentered(const short &ypos, const std::string &str);
+
+
+  void fillBackground(CHAR_INFO c, short x, short y,
+                      short width, short height);
+
+  void fillBackground(CHAR_INFO * c, short x, short y,
+                      short widt, short height);
 
   void drawSprite(const Sprite *, short x, short y);
   void drawLine(short x1, short y1, short x2, short y2, CHAR_INFO chinfo);

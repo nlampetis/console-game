@@ -58,6 +58,32 @@ void Renderer::drawSprite(const Sprite * sprite, short x, short y){
   }
 }
 
+void Renderer::drawTile(CHAR_INFO ch, short x, short y){
+  console->updateBuffer({x,y}, ch.Char.AsciiChar, ch.Attributes);
+}
+
+void Renderer::fillBackground(CHAR_INFO c, short x, short y, short w, short h){
+
+  for(short i = x; i<w+x; ++i){
+    for (short j = y; j<h+y; ++j){
+      console->updateBuffer({i,j}, c.Char.AsciiChar, c.Attributes);
+    }
+  }
+}
+
+void Renderer::fillBackground(CHAR_INFO * c, short x, short y, short w, short h){
+
+  for(short i = x; i<w+x; ++i){
+      for (short j = y; j<h+y; ++j){
+        
+        short cx = i-x;
+        short cy = i-y;
+        short currentpos = (cx-1)*(w-x) + cy; 
+        console->updateBuffer({i,j}, c[currentpos].Char.AsciiChar, c[currentpos].Attributes);
+      }
+    }
+}
+
 void Renderer::drawLine(short x1, short y1, short x2, short y2, CHAR_INFO chinfo){
 
   short dy = y2 - y1;

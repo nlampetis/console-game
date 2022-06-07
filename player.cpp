@@ -1,21 +1,29 @@
 #include "player.h"
+#include "console.h"
 #include "sprite.h"
+#include <string>
 
 Player::Player() : Player(10, 10) {}
 
 Player::Player(int cx, int cy) : x(cx), y(cy) {
     
     CHAR_INFO chInfo;
-    chInfo.Char.AsciiChar = 0x0001;
+    chInfo.Char.AsciiChar = 0x0040;
     chInfo.Attributes = FOREGROUND_GREEN | BACKGROUND_BLUE;
-    sprite = new Sprite(5, 5, chInfo);
-    CHAR_INFO replacement {0x0000};
 
-    for (int xx = 1; xx < 4; ++xx){
-      for (int yy = 1; yy < 4; ++yy){
-        sprite->changePixel(xx, yy, replacement);
-      }
-    }
+    //default behaviour
+    sprite = new Sprite(1, 1, chInfo);
+/*
+ *    //this is to test multitile sprite creation
+ *    sprite = new Sprite(5, 5, chInfo);
+ *    CHAR_INFO replacement {0x0000};
+ *
+ *    for (int xx = 1; xx < 4; ++xx){
+ *      for (int yy = 1; yy < 4; ++yy){
+ *        sprite->changePixel(xx, yy, replacement);
+ *      }
+ *    }
+ */
     /*sprite->changePixel(1, 2, replacement);
     sprite->changePixel(1, 3, replacement);
     sprite->changePixel(1, 4, replacement);
@@ -84,11 +92,18 @@ void Player::move(const char& m){
     
     switch (m){
         case 'w':
-            if(y - 1 >= 0) 
-                --y;
-            break;
+/*          {*/
+          /*std::string log = "pressed UP \ny is : ";*/
+          /*log.append(std::to_string(y));*/
+          /*log += "\nheight is: ";*/
+          /*log.append(std::to_string(getHeight()));*/
+          /*logMessageBox(log);*/
+          if(y - 1 >= 0) 
+            --y;
+          break;
+          //}
         case 's':
-            if(y + getHeight() < Console::WINDOW_HEIGHT)
+            if(y + getHeight() < Game::game_area_height)
                 ++y;
             break;
         case 'a':
@@ -96,7 +111,7 @@ void Player::move(const char& m){
             --x;
             break;
         case 'd':
-            if(x + getWidth() < Console::WINDOW_WIDTH)
+            if(x + getWidth() < Game::game_area_width)
             ++x;
             break;
         default:

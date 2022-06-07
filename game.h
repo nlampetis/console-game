@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <chrono>
 
 #include "gameobject.h"
 #include "console.h"
@@ -18,10 +19,13 @@ class Game{
     Player * player;
     Console * console;
     Renderer * renderer;
+    bool quitSignal;
+    float current_fps;
+    
   public:
 
     Game();
-    Game(short, short, short, short);
+    Game(short, short);
     ~Game();
 
     static short game_area_x_offset;
@@ -30,9 +34,16 @@ class Game{
     static short game_area_height;
 
     void addGameObject(GameObject *);
-    void addUIObject(std::string); //this for the ui
+    //this for the ui
+    void addUIObject(std::string); 
+    void addPlayer(Player *);
     
+    void init();
     void update();
     void redraw();
 
+    void set_quit();
+    bool has_quit();
+
+    void start();
 };

@@ -274,13 +274,54 @@ void gameLoopTemplate(Console &cl) {
   }
 }
 
+void gameLoopTemplateNew(Game * game) {
+
+  constexpr float GAME_TICK = 16666.0f; // 60 updates per second game tick
+
+  using namespace std::chrono_literals;
+  auto t1 = std::chrono::high_resolution_clock::now();
+  auto t0 = std::chrono::high_resolution_clock::now();
+  float delta =
+      std::chrono::duration_cast<std::chrono::microseconds>(16us).count();
+  float timeDiff = 0.0f;
+
+  int fps = 0;
+  while (!game->has_quit()) {
+
+    t0 = std::chrono::high_resolution_clock::now();
+
+    if (timeDiff >= GAME_TICK) { // update physics/logic once per game tick
+      timeDiff = 0;
+    }
+
+    game->update();
+    game->redraw();
+
+    t1 = std::chrono::high_resolution_clock::now();
+
+    delta =
+        (float)std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0)
+            .count();
+    if (delta != 0) {
+      fps = (int64_t)1000000 /
+                 std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0)
+                     .count();
+      //cl.setTitle(std::to_string(fps));
+    }
+  }
+}
+
 int main() {
-  // dummy comment 3
-  Console cl{};
-  cl.init();
-  Player player{2, 10};
+  //Console cl{};
+  //cl.init();
   // simpleAsciiScroll(cl);
   // playerMovement(cl, player);
-  bouncingBallLoop(cl);
-  // this is a second dummy comment
+  //bouncingBallLoop(cl);
+  
+  Game game {5, 5};
+  game.init();
+
+  game.addPlayer(new Player{10, 10});
+  game.start();
+  //gameLoopTemplateNew(&game);
 }
