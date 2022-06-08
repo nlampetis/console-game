@@ -20,6 +20,7 @@ void simpleAsciiScroll(Console& cl){
             Sleep(10);
     }
 }
+
 void playerMovement(Console& cl, Player& plr){
     
     PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
@@ -108,6 +109,7 @@ void bouncingBallLoop(Console& cl){
     Bouncy ball {};
     Player player {5, 5};
     Renderer renderer(&cl);
+
     PCHAR_INFO myMap = new CHAR_INFO[cl.getBufferSize()];
     std::default_random_engine generator;
     std::uniform_int_distribution<int> distribution(1,5);
@@ -204,8 +206,9 @@ void gameLoopTemplate(Console& cl){
 int main() {
     //dummy comment 3
     Console cl{};
-    cl.init();
+	cl.init();
     Player player{10, 10};
+
     //simpleAsciiScroll(cl);
     //playerMovement(cl, player);
     bouncingBallLoop(cl);
