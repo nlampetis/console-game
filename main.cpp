@@ -2,6 +2,7 @@
 #include "console.h"
 #include "bouncingball.h"
 #include "renderer.h"
+#include "game.h"
 
 #include <chrono>
 #include <random>

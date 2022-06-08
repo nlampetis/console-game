@@ -1,7 +1,5 @@
 #pragma once
 
-#include <windows.h>
-
 enum MY_COLOUR
 {
 	FG_BLACK = 0x0000,

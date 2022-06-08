@@ -9,9 +9,8 @@
 #include "console.h"
 #include "drawable.h"
 #include "sprite.h"
-#include "game.h"
 
-class Player : public Drawable{
+class Player : public Drawable {
 private:
   int x;
   int y;
@@ -19,9 +18,8 @@ private:
   int win_x;
   int win_y;
 
-  Sprite * sprite;
+  Sprite *sprite;
   float internalTimeDelta;
-
 
 public:
   Player();
@@ -32,7 +30,6 @@ public:
 
   const int &getX() const;
   const int &getY() const;
-
 
   void setX(int &newx);
   void setY(int &newy);
@@ -48,7 +45,7 @@ public:
   short getWidth() const;
   short getHeight() const;
 
-  Sprite * getSprite() const;
+  Sprite *getSprite() const;
 
   const short getWinX() const;
   const short getWinY() const;
