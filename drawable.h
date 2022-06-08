@@ -1,18 +1,14 @@
 #pragma once
 
+#include "sprite.h"
+
 #include <windows.h>
 
-class Drawable
-{
+class Drawable {
 public:
-    
-    virtual COORD getPos() const  = 0;
-    //virtual WCHAR getChar() const = 0;
-    //virtual WORD GetAttr() const = 0;
+  virtual const short getWinX() const = 0;
+  virtual const short getWinY() const = 0;
 
-    //can be encapsulated in a new sprite class
-    virtual CHAR_INFO * getSprite() const = 0;
-    virtual short getWidth() const = 0;
-    virtual short getHeight() const = 0;
-
+  // can be encapsulated in a new sprite class
+  virtual Sprite *getSprite() const = 0;
 };

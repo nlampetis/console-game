@@ -8,17 +8,24 @@
 
 #include "console.h"
 #include "drawable.h"
+#include "sprite.h"
 
 class Player : public Drawable {
 private:
   int x;
   int y;
-  CHAR_INFO *chInfo;
+
+  int win_x;
+  int win_y;
+
+  Sprite *sprite;
   float internalTimeDelta;
 
 public:
   Player();
   Player(int, int);
+  Player(int, int, Sprite *);
+
   virtual ~Player();
 
   const int &getX() const;
@@ -33,15 +40,20 @@ public:
   // WORD GetAttr() const;
 
   COORD getPos() const;
+  COORD getWinPos() const;
+
   short getWidth() const;
   short getHeight() const;
-  CHAR_INFO *getSprite() const;
 
+  Sprite *getSprite() const;
+
+  const short getWinX() const;
+  const short getWinY() const;
   // const CHAR_INFO& getPlayerCharInfo() const;
 
   void move(const char &);
   // void draw(Console&);
 
   void incrementDelta(float toAddelta);
-  void automove1s();
+  void automove1s(float delta);
 };

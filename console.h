@@ -8,45 +8,44 @@
 
 class Console {
 private:
-	
-	HANDLE mOutHandle;
-	HANDLE mInHandle;
-	SMALL_RECT mWindowSizeRect;
-	CONSOLE_FONT_INFOEX mConsoleFont;
-	CHAR_INFO* mPcharInfoBuffer;
-	PINPUT_RECORD mPinBuffer;
-	COORD mFinalBufferCoords;
-	CONSOLE_CURSOR_INFO mConsoleVursorInfo;
-	CONSOLE_SCREEN_BUFFER_INFO m_csbi;
-	size_t mFinalBufferSize;
-	INPUT_RECORD mInBuf[128];
-	
+  HANDLE mOutHandle;
+  HANDLE mInHandle;
+  SMALL_RECT mWindowSizeRect;
+  CONSOLE_FONT_INFOEX mConsoleFont;
+  CHAR_INFO *mPcharInfoBuffer;
+  PINPUT_RECORD mPinBuffer;
+  COORD mFinalBufferCoords;
+  CONSOLE_CURSOR_INFO mConsoleVursorInfo;
+  CONSOLE_SCREEN_BUFFER_INFO m_csbi;
+  size_t mFinalBufferSize;
+  INPUT_RECORD mInBuf[128];
 
 public:
-	
-	static short WINDOW_WIDTH; 
-	static short WINDOW_HEIGHT; 
-	
-	Console();
-	Console(short, short);
-	virtual ~Console();
+  static short WINDOW_WIDTH;
+  static short WINDOW_HEIGHT;
 
-	void init();
-	void updateBuffer(const int& i, const WCHAR&, const WORD&);
-	void updateBuffer(const COORD& pos, const WCHAR&, const WORD&);
+  Console();
+  Console(short, short);
+  virtual ~Console();
 
-	void fillBufferWithMap(const CHAR_INFO* map, const int& size);
-	
-	const size_t& getBufferSize() const;
+  void init();
+  void updateBuffer(const int &i, const WCHAR &, const WORD &);
+  void updateBuffer(const COORD &pos, const WCHAR &, const WORD &);
 
-	void dumpBufferToConsole();
-	void hideCursor();
-	bool handleUserInput();
-	char handleKeyInput();
-	void setTitle(std::string title);
-	const COORD& getFinalBufferCoords() const;
+  void fillBufferWithMap(const CHAR_INFO *map, const int &size);
+
+  const size_t &getBufferSize() const;
+
+  void dumpBufferToConsole();
+  void hideCursor();
+  bool handleUserInput();
+  char handleKeyInput();
+  void setTitle(std::string title);
+  const COORD &getFinalBufferCoords() const;
+  void fontResize(const bool &bigger);
 };
-
 
 char KeyEventProc(KEY_EVENT_RECORD ker);
 
+// TODO: move elsewhere
+void logMessageBox(const std::string &);

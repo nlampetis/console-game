@@ -10,29 +10,26 @@
 #include "console.h"
 
 struct myCoord {
-        float x;
-        float y;
+  float x;
+  float y;
 };
 
-
-class Bouncy{
+class Bouncy {
 private:
-    myCoord pos;
-    myCoord vel;
-    CHAR_INFO chInfo;
+  myCoord pos;
+  myCoord vel;
+  CHAR_INFO chInfo;
+
 public:
-    
-    Bouncy();
-    virtual ~Bouncy();
+  Bouncy();
+  virtual ~Bouncy();
 
+  const myCoord &getVel() const;
+  const myCoord &getPos() const;
+  void setVel(float &newx, float &newy);
+  void setPos(float &newx, float &newy);
+  const CHAR_INFO &getBouncyCharInfo() const;
 
-    const myCoord& getVel() const;
-    const myCoord& getPos() const;
-    void setVel(float& newx, float& newy);
-    void setPos(float& newx, float& newy);
-    const CHAR_INFO& getBouncyCharInfo() const;
-    
-    void move(Console&, float delta);
-    void draw(Console&);
-
+  void move(Console &, float delta);
+  void draw(Console &);
 };
