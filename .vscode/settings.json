@@ -52,5 +52,9 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": true,
+    "cmake.cmakePath": "C:\\Program Files\\CMake\\bin\\cmake.exe", 
+    "cmake.generator": "MinGW Makefiles",
+    "cmake.exportCompileCommandsFile": true
 }
