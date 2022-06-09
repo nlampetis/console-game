@@ -313,16 +313,8 @@ void gameLoopTemplateNew(Game * game) {
 }
 
 int main() {
-  //Console cl{};
-  //cl.init();
-  // simpleAsciiScroll(cl);
-  // playerMovement(cl, player);
-  //bouncingBallLoop(cl);
-  
   Game game {5, 5};
   game.init();
-
   game.addPlayer(new Player{10, 10});
   game.start();
-  //gameLoopTemplateNew(&game);
 }
