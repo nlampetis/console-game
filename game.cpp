@@ -11,12 +11,20 @@ Game::Game() {
   quitSignal = false;
   console = new Console{};
   console->init();
-  renderer = new Renderer{console};
+  uirenderer = new Renderer{console};
   // TODO implement custom offset
   game_area_x_offset = 0;
   game_area_y_offset = 10;
   game_area_width = Console::WINDOW_WIDTH - game_area_x_offset;
   game_area_height = Console::WINDOW_HEIGHT - game_area_y_offset;
+
+  gamerenderer = new Renderer{
+    console,
+    game_area_x_offset,
+    game_area_y_offset,
+    game_area_width,
+    game_area_height
+  };
 }
 
 Game::Game(short x, short y) {
@@ -24,12 +32,20 @@ Game::Game(short x, short y) {
   quitSignal = false;
   console = new Console{};
   console->init();
-  renderer = new Renderer{console};
+  uirenderer = new Renderer{console};
 
   game_area_x_offset = x;
   game_area_y_offset = y;
   game_area_width = Console::WINDOW_WIDTH - 2 * game_area_x_offset;
   game_area_height = Console::WINDOW_HEIGHT - 2 * game_area_y_offset;
+
+  gamerenderer = new Renderer{
+    console,
+    game_area_x_offset,
+    game_area_y_offset,
+    game_area_width,
+    game_area_height
+  };
 }
 
 Game::~Game() {
@@ -39,7 +55,8 @@ Game::~Game() {
   }
 
   delete player;
-  delete renderer;
+  delete uirenderer;
+  delete gamerenderer;
   delete console;
 }
 
@@ -70,33 +87,46 @@ void Game::update() {
 void Game::redraw() {
 
   // whole screen
-  renderer->fillBackground({'.', 0x00}, 0, 0, Console::WINDOW_WIDTH,
+  uirenderer->fillBackground({'.', 0x00}, 0, 0, Console::WINDOW_WIDTH,
                            Console::WINDOW_HEIGHT);
 
   // game area
-  renderer->fillBackground({'.', 0x88}, Game::game_area_x_offset,
+  uirenderer->fillBackground({'.', 0x88}, Game::game_area_x_offset,
                            Game::game_area_y_offset, Game::game_area_width,
                            Game::game_area_height);
 
   if (!game_objects.empty()) {
     for (auto &g : game_objects) {
-      renderer->draw(*g);
+      uirenderer->draw(*g);
     }
   }
 
-  renderer->drawRectBorder(game_area_x_offset, game_area_y_offset,
+  uirenderer->drawRectBorder(game_area_x_offset, game_area_y_offset,
                            game_area_width, game_area_height,
                            FOREGROUND_BLUE | FOREGROUND_RED
                            // 0x21
   );
 
-  renderer->draw(*player);
-  renderer->writeStringToConsole({0, 0}, std::to_string(current_fps));
-  renderer->writeStringCentered(2, "This is nice");
-  // renderer->drawCircle(10, 10, 8, {'#', 0x42});
-  // renderer->drawLine(5, 5, 100, 20, {'#', 0x42});
-  // renderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
-  renderer->updateDisplay();
+  uirenderer->draw(*player);
+  uirenderer->writeStringToConsole({0, 0}, std::to_string(current_fps));
+  uirenderer->writeStringCentered(2, "This is nice");
+  uirenderer->drawCircle(10, 10, 20, {'#', 0x42});
+  gamerenderer->drawCircle(120, 10, 20, {'#', 0x42}); //works!
+  gamerenderer->writeStringCentered(5, "hello there"); //works!
+  gamerenderer->drawLine(10,15, 400, 400, {'#', 0x42}); //works!
+  //renderer->drawLine(-10, 0, 1000, 1000, {'#', 0x42});
+  //renderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
+  gamerenderer->drawLine(0, 0, 1000, 1000, {'#', 0x42});
+  gamerenderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
+  
+  
+  /*
+    this is a bit funny but kind of? good because of the
+    fact that the two renderers share the same console and
+    as a result the same output buffer. This means that jjuif one
+    renderer calls its dump function everything will be drawn
+  */
+  uirenderer->updateDisplay();
 }
 
 void Game::set_quit() { quitSignal = true; }

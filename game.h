@@ -15,11 +15,13 @@ private:
   std::vector<GameObject *> game_objects;
   Player *player;
   Console *console;
-  Renderer *renderer;
+  Renderer *uirenderer;
+  Renderer *gamerenderer;
   bool quitSignal;
   float current_fps;
 
 public:
+
   Game();
   Game(short, short);
   ~Game();

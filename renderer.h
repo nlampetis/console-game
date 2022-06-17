@@ -9,9 +9,11 @@
 class Renderer {
 private:
   Console *console;
+  short x_offset, y_offset, x_max, y_max;
 
 public:
   Renderer(Console *);
+  Renderer(Console *, short xoff,short  yoff,short  xmax,short  ymax);
   virtual ~Renderer();
 
   void draw(const Drawable &);
