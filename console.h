@@ -43,6 +43,7 @@ public:
   void setTitle(std::string title);
   const COORD &getFinalBufferCoords() const;
   void fontResize(const bool &bigger);
+  HANDLE getInHandle(); 
 };
 
 char KeyEventProc(KEY_EVENT_RECORD ker);

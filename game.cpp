@@ -12,6 +12,7 @@ Game::Game() {
   console = new Console{};
   console->init();
   uirenderer = new Renderer{console};
+  inputHandler = new MyInputHandler{console};
   // TODO implement custom offset
   game_area_x_offset = 0;
   game_area_y_offset = 10;
@@ -33,6 +34,7 @@ Game::Game(short x, short y) {
   console = new Console{};
   console->init();
   uirenderer = new Renderer{console};
+  inputHandler = new MyInputHandler{console};
 
   game_area_x_offset = x;
   game_area_y_offset = y;
@@ -57,6 +59,7 @@ Game::~Game() {
   delete player;
   delete uirenderer;
   delete gamerenderer;
+  delete inputHandler;
   delete console;
 }
 
@@ -70,6 +73,8 @@ void Game::addPlayer(Player *p) { player = p; }
 
 void Game::update() {
 
+  inputHandler->getInput();
+  
   const char inpt = console->handleKeyInput();
   player->move(inpt);
   if (inpt == '+') {
@@ -85,6 +90,17 @@ void Game::update() {
 }
 
 void Game::redraw() {
+
+  //TODO: REMOVE FROM HERE
+  short mousex = inputHandler->getMouseX();
+  short mousey = inputHandler->getMouseY();
+
+  std::string mousepos = "";
+  mousepos.append("Mouse.X = ");
+  mousepos.append(std::to_string(mousex) + " - ");
+  mousepos.append("Mouse.Y = ");
+  mousepos.append(std::to_string(mousey));
+
 
   // whole screen
   uirenderer->fillBackground({'.', 0x00}, 0, 0, Console::WINDOW_WIDTH,
@@ -108,16 +124,17 @@ void Game::redraw() {
   );
 
   uirenderer->draw(*player);
+  uirenderer->writeStringToConsole({3,3}, mousepos);
   uirenderer->writeStringToConsole({0, 0}, std::to_string(current_fps));
   uirenderer->writeStringCentered(2, "This is nice");
-  uirenderer->drawCircle(10, 10, 20, {'#', 0x42});
-  gamerenderer->drawCircle(120, 10, 20, {'#', 0x42}); //works!
-  gamerenderer->writeStringCentered(5, "hello there"); //works!
-  gamerenderer->drawLine(10,15, 400, 400, {'#', 0x42}); //works!
+  //uirenderer->drawCircle(10, 10, 20, {'#', 0x42});
+  //gamerenderer->drawCircle(120, 10, 20, {'#', 0x42}); //works!
+  //gamerenderer->writeStringCentered(5, "hello there"); //works!
+  //gamerenderer->drawLine(10,15, 400, 400, {'#', 0x42}); //works!
   //renderer->drawLine(-10, 0, 1000, 1000, {'#', 0x42});
   //renderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
-  gamerenderer->drawLine(0, 0, 1000, 1000, {'#', 0x42});
-  gamerenderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
+  //gamerenderer->drawLine(0, 0, 1000, 1000, {'#', 0x42});
+  //gamerenderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
   
   
   /*

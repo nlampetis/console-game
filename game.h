@@ -7,6 +7,7 @@
 #include "gameobject.h"
 #include "player.h"
 #include "renderer.h"
+#include "input.h"
 
 class Game {
 private:
@@ -17,6 +18,7 @@ private:
   Console *console;
   Renderer *uirenderer;
   Renderer *gamerenderer;
+  MyInputHandler *inputHandler;
   bool quitSignal;
   float current_fps;
 
