@@ -55,7 +55,8 @@ void MyInputHandler::getInput() {
   for (DWORD i = 0; i < events; i++) {
     msg.append(std::to_string(inBuf[i].EventType));
     switch (inBuf[i].EventType) {
-    case MOUSE_EVENT: {
+    case MOUSE_EVENT: 
+    {
       switch (inBuf[i].Event.MouseEvent.dwEventFlags) {
       case MOUSE_MOVED: {
         mouseX = inBuf[i].Event.MouseEvent.dwMousePosition.X;
