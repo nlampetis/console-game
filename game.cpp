@@ -84,6 +84,7 @@ void Game::update() {
     set_quit();
   }
 
+  //these will be moved to the player class ofc
   if(inputHandler->getKeys()[0x57].pressed || inputHandler->getKeys()[0x57].held){
     player->move('w');
   }
@@ -98,18 +99,6 @@ void Game::update() {
   }
 
   player->move(' ');
-
-  /*player->move(inpt);*/
-  /*if (inpt == '+') {*/
-    /*// logMessageBox("i am here");*/
-    /*console->fontResize(true);*/
-  /*} else if (inpt == '-') {*/
-    /*console->fontResize(false);*/
-  /*} else if (inpt == 'q') {*/
-    /*set_quit();*/
-  /*} else if (inpt == 'p') {*/
-    /*system("pause");*/
-  /*}*/
 }
 
 void Game::redraw() {
