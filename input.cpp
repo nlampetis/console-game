@@ -55,27 +55,24 @@ void MyInputHandler::getInput() {
   for (DWORD i = 0; i < events; i++) {
     msg.append(std::to_string(inBuf[i].EventType));
     switch (inBuf[i].EventType) {
-    case MOUSE_EVENT: 
-    {
+    case MOUSE_EVENT: {
       switch (inBuf[i].Event.MouseEvent.dwEventFlags) {
       case MOUSE_MOVED: {
         mouseX = inBuf[i].Event.MouseEvent.dwMousePosition.X;
         mouseY = inBuf[i].Event.MouseEvent.dwMousePosition.Y;
-      } 
-      break;
+      } break;
       default:
         break;
       }
-    }
-    break;
+    } break;
     case KEY_EVENT: // keyboard input
-      //logMessageBox("key event");
-      //break;
+                    // logMessageBox("key event");
+                    // break;
     case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
-      //logMessageBox("window size event");
-      //break;
+                                   // logMessageBox("window size event");
+                                   // break;
     case FOCUS_EVENT: // disregard focus events
-    case MENU_EVENT: // disregard menu events
+    case MENU_EVENT:  // disregard menu events
     default:
       break;
     }

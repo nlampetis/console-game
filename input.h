@@ -2,7 +2,7 @@
 
 #include "console.h"
 
-struct KeyStates{
+struct KeyStates {
   bool pressed;
   bool released;
   bool held;
@@ -27,10 +27,9 @@ public:
   MyInputHandler(Console *console);
   void getInput();
 
-  KeyStates * getKeys();
-  KeyStates * getMouseKeys();
-  
+  KeyStates *getKeys();
+  KeyStates *getMouseKeys();
+
   short getMouseX();
   short getMouseY();
-
 };
