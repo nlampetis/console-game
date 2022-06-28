@@ -1,6 +1,9 @@
 #include "game.h"
 #include "console.h"
 
+#include <cmath>
+#include <math.h>
+
 short Game::game_area_height = 0;
 short Game::game_area_width = 0;
 short Game::game_area_x_offset = 0;
@@ -80,6 +83,22 @@ void Game::update() {
   if(quit_pressed){
     set_quit();
   }
+
+  if(inputHandler->getKeys()[0x57].pressed || inputHandler->getKeys()[0x57].held){
+    player->move('w');
+  }
+  if(inputHandler->getKeys()[0x41].pressed || inputHandler->getKeys()[0x41].held){
+    player->move('a');
+  }
+  if(inputHandler->getKeys()[0x53].pressed || inputHandler->getKeys()[0x53].held){
+    player->move('s');
+  }
+  if(inputHandler->getKeys()[0x44].pressed || inputHandler->getKeys()[0x44].held){
+    player->move('d');
+  }
+
+  player->move(' ');
+
   /*player->move(inpt);*/
   /*if (inpt == '+') {*/
     /*// logMessageBox("i am here");*/
@@ -131,6 +150,15 @@ void Game::redraw() {
   uirenderer->writeStringToConsole({3,3}, mousepos);
   uirenderer->writeStringToConsole({0, 0}, std::to_string(current_fps));
   uirenderer->writeStringCentered(2, "This is nice");
+  uirenderer->drawLine(player->getWinX(), player->getWinY(),
+      mousex, mousey,
+      {'#', 0x42});
+  float radius = std::sqrt(std::pow(mousey - player->getWinY(),2) 
+      + std::pow(mousex - player->getWinX(), 2)
+      );
+  uirenderer ->drawCircle(player->getWinX(), player->getWinY(),
+      radius,
+      {'#', 0x42});
   //uirenderer->drawCircle(10, 10, 20, {'#', 0x42});
   //gamerenderer->drawCircle(120, 10, 20, {'#', 0x42}); //works!
   //gamerenderer->writeStringCentered(5, "hello there"); //works!
@@ -169,13 +197,13 @@ void Game::start() {
     t0 = std::chrono::high_resolution_clock::now();
     timeDiff += delta;
 
-    update();
-    redraw();
 
     if (timeDiff >= GAME_TICK) { // update physics/logic once per game tick
 
+      update();
       timeDiff = 0;
     }
+    redraw();
     t1 = std::chrono::high_resolution_clock::now();
 
     delta =

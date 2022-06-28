@@ -46,34 +46,31 @@ void MyInputHandler::getInput() {
   DWORD events = 0;
   GetNumberOfConsoleInputEvents(inHandle, &events);
 
-  std::string msg = "Number of events" + std::to_string(events);
-  // logMessageBox(msg);
 
   if (events > 0)
     ReadConsoleInput(inHandle, inBuf, events, &events);
 
   for (DWORD i = 0; i < events; i++) {
-    msg.append(std::to_string(inBuf[i].EventType));
     switch (inBuf[i].EventType) {
-    case MOUSE_EVENT: 
-    {
+    case MOUSE_EVENT: {
       switch (inBuf[i].Event.MouseEvent.dwEventFlags) {
       case MOUSE_MOVED: {
         mouseX = inBuf[i].Event.MouseEvent.dwMousePosition.X;
         mouseY = inBuf[i].Event.MouseEvent.dwMousePosition.Y;
       } break;
+      case 0: {
+        for (int m = 0; m < 5; m++)
+          mouseNewState[m] =
+              (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0;
+      } break;
       default:
         break;
       }
     } break;
-    case KEY_EVENT: // keyboard input
-                    // logMessageBox("key event");
-                    // break;
-    case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
-                                   // logMessageBox("window size event");
-                                   // break;
-    case FOCUS_EVENT: // disregard focus events
-    case MENU_EVENT:  // disregard menu events
+    case KEY_EVENT:                // keyboard input handled elsewhere
+    case WINDOW_BUFFER_SIZE_EVENT: // mabye later
+    case FOCUS_EVENT:              // dont care (yet)
+    case MENU_EVENT:               // dont care (yet)
     default:
       break;
     }
