@@ -1,7 +1,9 @@
 #include "console.h"
 
+#include <minwindef.h>
 #include <string>
 #include <wincon.h>
+#include <winnt.h>
 
 short Console::WINDOW_HEIGHT = 0;
 short Console::WINDOW_WIDTH = 0;
@@ -134,8 +136,12 @@ void Console::init() {
 
   hideCursor();
 
-  // SetConsoleMode(mOutHandle, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT |
-  // ENABLE_MOUSE_INPUT);
+  if (!SetConsoleMode(mInHandle, 
+        ENABLE_EXTENDED_FLAGS | 
+        ENABLE_WINDOW_INPUT | 
+        ENABLE_MOUSE_INPUT)){
+    logMessageBox("Could not set console mode");
+  }
 
   GetConsoleScreenBufferInfo(mOutHandle, &m_csbi);
   HWND consoleWindow = GetConsoleWindow();
@@ -298,5 +304,5 @@ void logMessageBox(const std::string &msg) {
 }
 
 HANDLE Console::getInHandle(){
-  return &mInHandle;
+  return mInHandle;
 }

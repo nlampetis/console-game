@@ -1,6 +1,8 @@
 #include "input.h"
+#include "console.h"
 
 #include <cstring>
+#include <string>
 
 MyInputHandler::MyInputHandler(Console *cn) {
 
@@ -43,24 +45,37 @@ void MyInputHandler::getInput() {
   INPUT_RECORD inBuf[32];
   DWORD events = 0;
   GetNumberOfConsoleInputEvents(inHandle, &events);
+
+  std::string msg = "Number of events" + std::to_string(events);
+  // logMessageBox(msg);
+
   if (events > 0)
     ReadConsoleInput(inHandle, inBuf, events, &events);
 
   for (DWORD i = 0; i < events; i++) {
+    msg.append(std::to_string(inBuf[i].EventType));
     switch (inBuf[i].EventType) {
-    case MOUSE_EVENT: {
+    case MOUSE_EVENT: 
+    {
       switch (inBuf[i].Event.MouseEvent.dwEventFlags) {
       case MOUSE_MOVED: {
         mouseX = inBuf[i].Event.MouseEvent.dwMousePosition.X;
         mouseY = inBuf[i].Event.MouseEvent.dwMousePosition.Y;
-        logMessageBox(std::to_string(mouseX));
-      } break;
-
+      } 
+      break;
       default:
         break;
       }
-    } break;
-
+    }
+    break;
+    case KEY_EVENT: // keyboard input
+      //logMessageBox("key event");
+      //break;
+    case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
+      //logMessageBox("window size event");
+      //break;
+    case FOCUS_EVENT: // disregard focus events
+    case MENU_EVENT: // disregard menu events
     default:
       break;
     }
@@ -84,9 +99,9 @@ void MyInputHandler::getInput() {
   }
 }
 
-KeyStates * MyInputHandler::getKeys() { return keys; }
+KeyStates *MyInputHandler::getKeys() { return keys; }
 
-KeyStates * MyInputHandler::getMouseKeys() { return mouse; }
+KeyStates *MyInputHandler::getMouseKeys() { return mouse; }
 
 short MyInputHandler::getMouseX() { return mouseX; }
 
