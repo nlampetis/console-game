@@ -75,18 +75,22 @@ void Game::update() {
 
   inputHandler->getInput();
   
-  const char inpt = console->handleKeyInput();
-  player->move(inpt);
-  if (inpt == '+') {
-    // logMessageBox("i am here");
-    console->fontResize(true);
-  } else if (inpt == '-') {
-    console->fontResize(false);
-  } else if (inpt == 'q') {
+  //const char inpt = console->handleKeyInput();
+  bool quit_pressed = inputHandler->getKeys()[0x51].released;
+  if(quit_pressed){
     set_quit();
-  } else if (inpt == 'p') {
-    system("pause");
   }
+  /*player->move(inpt);*/
+  /*if (inpt == '+') {*/
+    /*// logMessageBox("i am here");*/
+    /*console->fontResize(true);*/
+  /*} else if (inpt == '-') {*/
+    /*console->fontResize(false);*/
+  /*} else if (inpt == 'q') {*/
+    /*set_quit();*/
+  /*} else if (inpt == 'p') {*/
+    /*system("pause");*/
+  /*}*/
 }
 
 void Game::redraw() {
