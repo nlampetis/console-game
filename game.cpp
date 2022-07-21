@@ -149,11 +149,11 @@ void Game::redraw() {
       radius,
       {'#', 0x42});
   //uirenderer->drawCircle(10, 10, 20, {'#', 0x42});
-  //gamerenderer->drawCircle(120, 10, 20, {'#', 0x42}); //works!
+  gamerenderer->drawCircle(120, 10, 20, {'#', 0x42}); //works!
   //gamerenderer->writeStringCentered(5, "hello there"); //works!
   //gamerenderer->drawLine(10,15, 400, 400, {'#', 0x42}); //works!
-  //renderer->drawLine(-10, 0, 1000, 1000, {'#', 0x42});
-  //renderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
+  //uirenderer->drawLine(-10, 0, 1000, 1000, {'#', 0x42});
+  //uirenderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
   //gamerenderer->drawLine(0, 0, 1000, 1000, {'#', 0x42});
   //gamerenderer->drawTriangle(50, 2, 100, 2, 50, 18, {'#', 0x42});
   
