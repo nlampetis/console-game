@@ -298,7 +298,7 @@ void Console::fontResize(const bool &bigger) {
 }
 
 void logMessageBox(const std::string &msg) {
-  MessageBox(NULL, TEXT(msg.c_str()), TEXT("Console Logger"), MB_OK);
+  MessageBoxA(NULL, msg.c_str(), "Console Logger", MB_OK);
 }
 
 HANDLE Console::getInHandle() { return mInHandle; }

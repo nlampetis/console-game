@@ -317,4 +317,5 @@ int main() {
   game.init();
   game.addPlayer(new Player{10, 10});
   game.start();
+  logMessageBox("HEY");
 }
